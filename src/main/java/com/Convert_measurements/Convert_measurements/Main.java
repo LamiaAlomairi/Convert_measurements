@@ -20,6 +20,7 @@ public class Main {
         String inputWord = scanner.next().toLowerCase();
 
         StringBuilder extractedWord = new StringBuilder();
+        StringBuilder letterCounts = new StringBuilder();
 
         while (inputWord.length() > 1) {
             char firstLetter = inputWord.charAt(0);
@@ -31,28 +32,32 @@ public class Main {
                     extractedWord.append(subWord).append("");
                     inputWord = inputWord.substring(number + 1);
 
-                    int countZ=0;
-                    for(int i = 1; i <= subWord.length(); i++){
-                        if(inputWord.charAt(i) == 'z'){
+                    int countZ = 0;
+                    for (int i = 0; i < subWord.length(); i++) {
+                        if (subWord.charAt(i) == 'z') {
                             countZ++;
                         }
                     }
-                    if (subWord.contains("z")) {
-                        if (inputWord.length() > 0) {
-                            extractedWord.append(inputWord.charAt(0)).append("");
+                    if (countZ > 0) {
+                        if (inputWord.length() >= countZ) {
+                            String draggedLetters = inputWord.substring(0, countZ);
+                            extractedWord.append(draggedLetters).append("");
                             inputWord = inputWord.substring(countZ);
                         }
                     }
                     extractedWord.append(" ");
+
+                    letterCounts.append(subWord.length() - countZ).append(", ");
                 } else {
-                    extractedWord.append(inputWord);
+                    extractedWord.append(0);
                     inputWord = "";
                 }
             } else {
-                inputWord = inputWord.substring(0);
+                inputWord = inputWord.substring(1);
             }
         }
 
         System.out.println("Extracted Subwords: " + extractedWord);
+        System.out.println("Letter Counts: [" + letterCounts.substring(0, letterCounts.length() - 2) + "]");
     }
 }
